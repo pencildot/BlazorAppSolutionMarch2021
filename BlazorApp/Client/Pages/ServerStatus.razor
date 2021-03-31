@@ -1,0 +1,23 @@
+﻿@page "/ServerStatus"
+@using BlazorApp.Shared;
+@inject HttpClient Http;
+<h3>Server Status</h3>
+
+@if (Status == null)
+{
+                <h3>Loading your status...</h3>
+}
+else
+{
+<p>The status is @Status.StatusMessage, last checked by @Status.CheckedBy at @Status.LastChecked.ToLongTimeString()</p>
+}
+@code {
+
+    private GetStatusResponse Status;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Status = await Http.GetFromJsonAsync<GetStatusResponse>("status");
+    }
+}
